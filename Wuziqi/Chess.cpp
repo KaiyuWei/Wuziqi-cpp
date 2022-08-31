@@ -24,7 +24,7 @@ void Chess::init()
 	// show the board picture
 	loadimage(0, "res/board2.jpg");
 	// play the starting music
-	mciSendString("play res/start.wav", 0, 0, 0);
+	mciSendString("play res/start.mp3", 0, 0, 0);
 	
 	// load piece pictures
 	loadimage(&chessBlackImg, "res/black.png", chessSize, chessSize, true);
@@ -104,8 +104,17 @@ bool Chess::clickBoard(int x, int y, ChessPos* pos) {
 	return false;
 }
 
-void Chess::chessDown(ChessPos* row, chess_kind_t)
+void Chess::chessDown(ChessPos* pos, chess_kind_t kind)
 {
+	int x = margin_x + chessSize * (pos->col - 0.5);
+	int y = margin_y + chessSize * (pos->row - 0.5);
+
+	if (kind == CHESS_WHITE) {
+		putimage(x, y, &chessWhiteImg);
+	}
+	else {
+		putimage(x, y, &chessBlackImg);
+	}
 }
 
 int Chess::getGradeSize()
