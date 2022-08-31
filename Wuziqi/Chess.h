@@ -39,6 +39,6 @@ private:
 	float chessSize;  // size of the piece
 	vector<vector<int>> chessMap;  // store the current board status
 	bool playerFlag;  // which player's turn. True: black, False: white
-
+	void updateGameMap(ChessPos* pos);
 };
 
