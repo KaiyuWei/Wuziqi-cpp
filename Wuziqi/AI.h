@@ -12,5 +12,8 @@ public:
 private:
 	Chess* chess;
 	vector<vector<int>> scoreMap;  // scoring data
+
+private:
+	void calculateScore();
 };
 

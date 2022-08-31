@@ -161,6 +161,12 @@ int Chess::getGradeSize()
 	return 0;
 }
 
+int Chess::getChessData(int row, int col)
+{
+	int res = this->chessMap[row][col];
+	return res;
+}
+
 bool Chess::checkOver()
 {
 	return false;

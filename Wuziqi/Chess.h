@@ -29,6 +29,7 @@ public:
 	bool clickBoard(int x, int y, ChessPos * pos);
 	void chessDown(ChessPos* row, chess_kind_t);
 	int getGradeSize();  // gain the size of the board
+	int getChessData(int row, int col);
 	bool checkOver();  // check if the game is over
 private:
 	IMAGE chessBlackImg;  // black piece
