@@ -15,6 +15,9 @@ void AI::init(Chess* chess)
 
 void AI::go()
 {
+	ChessPos pos = think();
+	Sleep(1000);  // pretend to think XD
+	chess->chessDown(&pos, CHESS_WHITE);
 }
 
 void AI::calculateScore()
@@ -178,4 +181,30 @@ void AI::calculateScore()
 		}
 	}
 
+}
+
+ChessPos AI::think()
+{
+	calculateScore();
+
+	int maxScore = 0;
+	vector<ChessPos> maxPoints;  // if more than one nodes have max score, randomly chooose one
+	int size = chess->getGradeSize();
+	for (int row = 0; row < size; row++) {
+		for (int col = 0; col < size; col++) {
+			if (!chess->getChessData(row, col)) {
+				if (scoreMap[row][col] > maxScore) {
+					maxScore = scoreMap[row][col];
+					maxPoints.clear();
+					maxPoints.push_back(ChessPos(row, col));
+				}
+				else if (scoreMap[row][col] == maxScore) {
+					maxPoints.push_back(ChessPos(row, col));
+				}	
+			}
+		}
+	}
+	int index = rand() % maxPoints.size();
+
+	return maxPoints[index];
 }

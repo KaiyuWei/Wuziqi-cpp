@@ -65,7 +65,7 @@ void Chess::init()
 	
 	// load piece pictures
 	loadimage(&chessBlackImg, "res/black.png", chessSize, chessSize, true);
-	loadimage(&chessBlackImg, "res/white.png", chessSize, chessSize, true);
+	loadimage(&chessWhiteImg, "res/white.png", chessSize, chessSize, true);
 
 	// clear the chessboard
 	for (int i = 0; i < chessMap.size(); i++) {
@@ -158,7 +158,7 @@ void Chess::chessDown(ChessPos* pos, chess_kind_t kind)
 
 int Chess::getGradeSize()
 {
-	return 0;
+	return gradeSize;
 }
 
 int Chess::getChessData(int row, int col)
@@ -170,6 +170,21 @@ int Chess::getChessData(int row, int col)
 bool Chess::checkOver()
 {
 	return false;
+}
+
+int Chess::getMarginX()
+{
+	return margin_x;
+}
+
+int Chess::getMarginY()
+{
+	return margin_y;
+}
+
+int Chess::getChessSize()
+{
+	return chessSize;
 }
 
 void Chess::updateGameMap(ChessPos* pos)

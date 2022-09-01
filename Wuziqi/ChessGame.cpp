@@ -4,6 +4,7 @@ ChessGame::ChessGame(Player* player, AI* ai, Chess* chess) :
 	player(player), ai(ai), chess(chess) {
 
 	player->init(chess);
+	ai->init(chess);
 
 }
 

@@ -10,6 +10,8 @@ struct ChessPos {
 	*/
 	int row;
 	int col;
+
+	ChessPos(int r = 0, int c = 0) :row(r), col(c) {};
 }; 
 
 typedef enum { 
@@ -31,6 +33,9 @@ public:
 	int getGradeSize();  // gain the size of the board
 	int getChessData(int row, int col);
 	bool checkOver();  // check if the game is over
+	int getMarginX();
+	int getMarginY();
+	int getChessSize();
 private:
 	IMAGE chessBlackImg;  // black piece
 	IMAGE chessWhiteImg;  // white piece

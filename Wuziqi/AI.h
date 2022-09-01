@@ -15,5 +15,6 @@ private:
 
 private:
 	void calculateScore();
+	ChessPos think();    // gives out the position Ai should put piece on
 };
 
