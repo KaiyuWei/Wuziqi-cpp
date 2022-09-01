@@ -39,11 +39,13 @@ void AI::calculateScore()
 			// score for all available nodes
 			if (chess->getChessData(row, col)) continue;  // if there is a piece, skip
 
-			// all possible directions (in total: 8) of a node should be considered when scoring
+			// all possible directions (in total: 4) of a node should be considered when scoring
 			// x, y are variables for controlling the directions
-			for (int y = -1; y <= 1; y++) {
+			for (int y = -1; y <= 0; y++) {
 				for (int x = -1; x <= 1; x++) {
-					if (y == 0 && x == 0) continue;  
+					if (y == 0 && x == 0) continue; 
+					if (y == 0 && x != 1) continue;
+
 					personNum = 0;
 					aiNum = 0;
 					emptyNum = 0;

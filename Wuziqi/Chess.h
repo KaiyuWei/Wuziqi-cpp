@@ -47,5 +47,7 @@ private:
 	vector<vector<int>> chessMap;  // store the current board status
 	bool playerFlag;  // which player's turn. True: black, False: white
 	void updateGameMap(ChessPos* pos);
+	bool checkWin();  // check if any side wins
+	ChessPos lastPos;  // last selected node position
 };
 

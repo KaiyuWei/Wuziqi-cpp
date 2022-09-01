@@ -1,7 +1,8 @@
 #include "Chess.h"
-#include <math.h>
+#include <math.h> 
 #include<mmsyscom.h>
 #pragma comment(lib, "winmm.lib")
+#include <conio.h>
 
 // a function for removing the non-transparent backgroud of chess piece pictures. EasyX itself des not support the transparent background.
 void putimagePNG(int x, int y, IMAGE* picture) //x为载入图片的X坐标，y为Y坐标
@@ -143,6 +144,7 @@ bool Chess::clickBoard(int x, int y, ChessPos* pos) {
 
 void Chess::chessDown(ChessPos* pos, chess_kind_t kind)
 {
+	mciSendString("play res/down7.WAV", 0, 0, 0);
 	int x = margin_x + chessSize * (pos->col - 0.5);
 	int y = margin_y + chessSize * (pos->row - 0.5);
 
@@ -175,6 +177,23 @@ int Chess::getChessData(ChessPos* pos)
 
 bool Chess::checkOver()
 {
+	// check if any side wins
+	if (checkWin()) {
+		Sleep(1500);
+		if (!playerFlag) {
+			// true: black's turn, false: white's turn
+			// so if playerFlag is false when game ends, we know black(Player) wins.
+			mciSendString("play res/PlayerWins.mp3", 0, 0, 0);
+			loadimage(0, "res/win.jpg");
+		}
+		else {
+			mciSendString("play res/Playerloses.mp3", 0, 0, 0);
+			loadimage(0, "res/lose.jpg");
+		}
+		_getch();  // pause on the window.
+		return true;
+	}
+
 	return false;
 }
 
@@ -195,7 +214,101 @@ int Chess::getChessSize()
 
 void Chess::updateGameMap(ChessPos* pos)
 {
+	lastPos = *pos;
 	chessMap[pos->row][pos->col] =
 		playerFlag ? CHESS_BLACK : CHESS_WHITE;
 	playerFlag = !playerFlag;  // change the side
+}
+
+bool Chess::checkWin()
+{
+	int row = lastPos.row;
+	int col = lastPos.col;
+	int starting = chessMap[row][col];
+
+	// check horizontal direction
+	for (int i = 0; i < 5; i++) {
+		if (col - i < 0) break;
+		if (col - i + 4 >= gradeSize) break;
+		
+		int cur = chessMap[row][col - i]; 
+		if (cur != starting) break;
+
+		int seqCount = 1;  // initial value 1, bacause current position already have one piece
+		for (int j = 1; j <= 4; j++) {
+			if (seqCount < 5 && starting == chessMap[row][col - i + j]) {
+				seqCount++;
+			}
+			else if (seqCount < 5 && starting != chessMap[row][col - i + j]) {
+				break;
+			}
+		}
+		if (seqCount == 5) return true;
+	}
+
+	// check vertical direction
+	for (int i = 0; i < 5; i++) {
+		if (row - i < 0) break;
+		if (row - i + 4 >= gradeSize) break;
+
+		int cur = chessMap[row - i][col];
+		if (cur != starting) break;
+
+		int seqCount = 1;  // initial value 1, bacause current position already have one piece
+		for (int j = 1; j <= 4; j++) {
+			if (seqCount < 5 && starting == chessMap[row - i + j][col]) {
+				seqCount++;
+			}
+			else if (seqCount < 5 && starting != chessMap[row - i + j][col]) {
+				break;
+			}
+		}
+		if (seqCount == 5) return true;
+
+		
+	}
+
+	// check left diagnal direction "\"
+	for (int i = 0; i < 5; i++) {
+		if (row - i < 0 || col - i < 0) break;
+		if (row - i + 4 >= gradeSize || col - i + 4 >= gradeSize) break;
+
+		int cur = chessMap[row - i][col - i];
+		if (cur != starting) break;
+
+		int seqCount = 1;  // initial value 1, bacause current position already have one piece
+		for (int j = 1; j <= 4; j++) {
+			if (seqCount < 5 && starting == chessMap[row - i + j][col - i + j]) {
+				seqCount++;
+			}
+			else if (seqCount < 5 && starting != chessMap[row - i + j][col - i + j]) {
+				break;
+			}
+		}
+		if (seqCount == 5) return true;
+	}
+
+	// check right diagnal direction "/"
+	for (int i = 0; i < 5; i++) {
+		if (row - i < 0 || col + i >= gradeSize) break;
+		if (row - i + 4 >= gradeSize || col + i - 4 < 0) break;
+
+		int cur = chessMap[row - i][col + i];
+		if (cur != starting) break;
+
+		int seqCount = 1;  // initial value 1, bacause current position already have one piece
+		for (int j = 1; j <= 4; j++) {
+			if (col + i - j < 0) break;
+			if (seqCount < 5 && starting == chessMap[row - i + j][col + i - j]) {
+				seqCount++;
+			}
+			else if (seqCount < 5 && starting != chessMap[row - i + j][col + i - j]) {
+				break;
+			}
+		}
+		if (seqCount == 5) return true;
+	}
+
+	
+	return false;
 }
