@@ -163,7 +163,13 @@ int Chess::getGradeSize()
 
 int Chess::getChessData(int row, int col)
 {
-	int res = this->chessMap[row][col];
+	int res = chessMap[row][col];
+	return res;
+}
+
+int Chess::getChessData(ChessPos* pos)
+{
+	int res = chessMap[pos->row][pos->col];
 	return res;
 }
 

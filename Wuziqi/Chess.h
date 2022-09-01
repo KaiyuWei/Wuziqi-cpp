@@ -32,6 +32,7 @@ public:
 	void chessDown(ChessPos* row, chess_kind_t);
 	int getGradeSize();  // gain the size of the board
 	int getChessData(int row, int col);
+	int getChessData(ChessPos* pos);
 	bool checkOver();  // check if the game is over
 	int getMarginX();
 	int getMarginY();

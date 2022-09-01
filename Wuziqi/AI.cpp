@@ -35,10 +35,7 @@ void AI::calculateScore()
 	int size = chess->getGradeSize();
 	for (int row = 0; row < size; row++) {
 		for (int col = 0; col < size; col++) {
-			personNum = 0;   
-			aiNum = 0;  
-			emptyNum = 0;
-
+			
 			// score for all available nodes
 			if (chess->getChessData(row, col)) continue;  // if there is a piece, skip
 
@@ -47,6 +44,9 @@ void AI::calculateScore()
 			for (int y = -1; y <= 1; y++) {
 				for (int x = -1; x <= 1; x++) {
 					if (y == 0 && x == 0) continue;  
+					personNum = 0;
+					aiNum = 0;
+					emptyNum = 0;
 
 					// if black is at current node
 					for (int i = 1; i <= 4; i++) {
